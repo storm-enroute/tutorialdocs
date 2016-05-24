@@ -1,8 +1,10 @@
 ---
 layout: tutorial
 title: Reactors
-permalink: /reactors/index.html
 topic: reactors
+logoname: reactress-mini-logo.png
+projectname: Reactors.IO
+permalink: /reactors/index.html
 ---
 
 
