@@ -3,8 +3,8 @@
   <div class="toc"><span>Contents</span></div>
 
   {% for pg in site.pages %}
-    {% if pg.topic == page.topic and pg.section == "guide" and pg.outof %}
-      {% assign totalPagesTour = pg.outof %}
+    {% if pg.topic == page.topic and pg.section == "guide" and pg.pagetot %}
+      {% assign totalPagesTour = pg.pagetot %}
     {% endif %}
   {% endfor %}
 
@@ -14,7 +14,7 @@
   <ul class="bullets">
     {% for i in (1..totalPagesTour) %}
       {% for pg in site.pages %}
-        {% if pg.topic == page.topic and pg.section == "guide" and pg.num and pg.num == i and pg.coversion == page.coversion %}
+        {% if pg.topic == page.topic and pg.section == "guide" and pg.pagenum and pg.pagenum == i and pg.coversion == page.coversion %}
           <li><a href="{{ pg.url }}">{{ pg.title }}</a></li>
         {% endif %}
       {% endfor %}

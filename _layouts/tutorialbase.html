@@ -1,0 +1,54 @@
+---
+layout: tutorialheaders
+---
+
+<body onload="prettyPrint()">
+
+  <div id="wrap">
+
+    <div id="top">
+      <div class="container_12">
+        <div class="grid_12">
+          <ul class="horizmenu topmenu">
+            <li class="topelement logo">
+              <img height="38" src="/resources/images/{{ page.logoname }}"/>
+              <span class="logotext" style="{{ page.logostyle }}">{{ page.projectname }}</span>
+            </li>
+            <li class="topdivider topelement"></li>
+            <li class="topelement"><a href="/{{ page.topic }}"><i class="fa fa-home icon"></i>Home</a></li>
+            <li class="topdivider topelement"></li>
+            <li class="topelement topzero"><a></a></li>
+          </ul>
+
+          <form class="horizsearch" action="https://www.google.com/search" method="GET">
+            <input name="as_q" class="search-query" placeholder="Search" type="text">
+            <input name="as_sitesearch" value="storm-enroute.com" type="hidden">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="darkdivider"></div> -->
+    <!-- <div class="greydivider"></div> -->
+    <!-- <div class="topshadow"></div> -->
+
+    {{ content }}
+
+  </div>
+
+  <div id="footer">
+    <!-- <div class="darkdivider"></div> -->
+    <!-- <div class="lightdivider"></div> -->
+  
+    <div id="footercontent" class="container_16">
+      <div class="grid_16 footer">
+        <div class="copyright footerelement">
+          <a href="/">&copy; 2011-2016 Storm Enroute</a>
+        </div>
+      </div>
+      <div class="grid_12 footer">
+      </div>
+    </div>
+  </div>
+
+</body>
