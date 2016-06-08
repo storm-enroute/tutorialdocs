@@ -65,10 +65,13 @@ this by calling the `spawn` method on the reactor system:
 val ch: Channel[String] = system.spawn(proto)
 ```
 
-{% capture s %}
-{% include reactors-java-reactors-spawn.html %}
-{% endcapture %}
-{{ s | markdownify }}
+<div data-role="collapsible">
+  <h4>Java</h4>
+  {% capture s %}
+  {% include reactors-java-reactors-spawn.html %}
+  {% endcapture %}
+  {{ s | markdownify }}
+</div>
 
 The method `spawn` takes a `Proto` object as a parameter. The `Proto` object can
 generally encode the reactor's constructor arguments, scheduler, name and other
