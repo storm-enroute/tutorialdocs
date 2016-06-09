@@ -32,6 +32,25 @@ reactors in a single machine.
 val system = new ReactorSystem("test-system")
 ```
 
+<div class='panel-group' id='accordion'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#accordion' href='#clps-1'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-1' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-system.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 Before we can start a reactor instance, we need to define its template. One way to
 do this is to call `Reactor.apply[T]` method, which returns a `Proto` object for the
 reactor. The `Proto` object is called a *prototype* of the reactors.
@@ -45,6 +64,25 @@ val proto: Proto[Reactor[String]] = Reactor[String] { self =>
 }
 ```
 
+<div class='panel-group' id='accordion'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#accordion' href='#clps-1'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-1' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-anonymous.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 Lets examine this code more closely. The `Reactor.apply` method is called with the
 argument `String`. This means that the reactor encoded in the resulting `Proto`
 object only receives events whose type is `String`. This is the first difference
@@ -65,14 +103,25 @@ this by calling the `spawn` method on the reactor system:
 val ch: Channel[String] = system.spawn(proto)
 ```
 
-<div data-role="collapsible">
-  <h4>Java</h4>
-  {% capture s %}
-  {% include reactors-java-reactors-spawn.html %}
-  {% endcapture %}
-  {{ s | markdownify }}
+<div class='panel-group' id='accordion'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#accordion' href='#clps-1'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-1' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-spawn.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
 </div>
-
 The method `spawn` takes a `Proto` object as a parameter. The `Proto` object can
 generally encode the reactor's constructor arguments, scheduler, name and other
 options. In our example, we created a `Proto` object for an anonymous reactor
