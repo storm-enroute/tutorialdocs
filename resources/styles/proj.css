@@ -51,12 +51,15 @@ body, html {
   font-smooth: antialiased;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  line-height: 130%;
   /*text-shadow: rgba(0,0,0,.01) 0 0 1px;*/
 }
 
 pre {
   margin-top: 4px;
+}
+
+p {
+  line-height: 130%;
 }
 
 .loader {
@@ -348,9 +351,9 @@ ul.horizmenu li span.logotext {
   font-size: 31px;
   text-shadow: 1px 1px 1px #999;
   color: #58c;
-  vertical-align: top;
   padding-left: 6px;
   padding-right: 12px;
+  vertical-align: top;
 }
 
 ul.horizmenu li a {

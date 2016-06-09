@@ -32,16 +32,17 @@ reactors in a single machine.
 val system = new ReactorSystem("test-system")
 ```
 
-<div class='panel-group' id='accordion'>
+<div class='panel-group' id='acc-1'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#accordion' href='#clps-1'>
+        <a data-toggle='collapse' data-parent='#acc-1'
+          href='#clps-2'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-1' class='panel-collapse collapse'>
+    <div id='clps-2' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-system.html %}
@@ -64,16 +65,17 @@ val proto: Proto[Reactor[String]] = Reactor[String] { self =>
 }
 ```
 
-<div class='panel-group' id='accordion'>
+<div class='panel-group' id='acc-3'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#accordion' href='#clps-1'>
+        <a data-toggle='collapse' data-parent='#acc-3'
+          href='#clps-4'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-1' class='panel-collapse collapse'>
+    <div id='clps-4' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-anonymous.html %}
@@ -103,16 +105,17 @@ this by calling the `spawn` method on the reactor system:
 val ch: Channel[String] = system.spawn(proto)
 ```
 
-<div class='panel-group' id='accordion'>
+<div class='panel-group' id='acc-5'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#accordion' href='#clps-1'>
+        <a data-toggle='collapse' data-parent='#acc-5'
+          href='#clps-6'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-1' class='panel-collapse collapse'>
+    <div id='clps-6' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-spawn.html %}
