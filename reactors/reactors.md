@@ -180,6 +180,26 @@ class HelloReactor extends Reactor[String] {
 }
 ```
 
+<div class='panel-group' id='acc-7'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-7'
+          href='#clps-8'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-8' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-template.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 To run this reactor, we first create a prototype to configure it. The method
 `Proto.apply` takes the type of the reactor and returns a prototype for that
 reactor type. We then call the `spawn` method with that `Proto` object to start the
