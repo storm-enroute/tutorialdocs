@@ -160,6 +160,26 @@ on the channel:
 ch ! "Hola!"
 ```
 
+<div class='panel-group' id='acc-7'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-7'
+          href='#clps-8'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-8' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-send.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 Running the last statement should print `"Hola!"` to the standard output.
 
 ### Defining and configuring reactors
@@ -180,17 +200,17 @@ class HelloReactor extends Reactor[String] {
 }
 ```
 
-<div class='panel-group' id='acc-7'>
+<div class='panel-group' id='acc-9'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-7'
-          href='#clps-8'>
+        <a data-toggle='collapse' data-parent='#acc-9'
+          href='#clps-10'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-8' class='panel-collapse collapse'>
+    <div id='clps-10' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-template.html %}
@@ -210,6 +230,26 @@ val ch = system.spawn(Proto[HelloReactor])
 ch ! "Howdee!"
 ```
 
+<div class='panel-group' id='acc-11'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-11'
+          href='#clps-12'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-12' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-spawn-template.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 We can also use the prototype to, for example, set the scheduler that the
 reactor instance should use. If we want the reactor instance to run on its
 dedicated thread to give it more priority, we can do the following:
