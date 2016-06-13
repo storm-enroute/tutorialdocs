@@ -1,6 +1,6 @@
 ```java
 Proto<String> proto = Proto.create(HelloReactor.class);
 Channel<String> ch = system.spawn(proto);
-// ch.send("Howdee!");
+ch.send("Howdee!");
 ```
 

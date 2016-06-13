@@ -1,5 +1,10 @@
 ```java
 public static class HelloReactor extends Reactor<String> {
+  public HelloReactor() {
+    main().events().onEvent(
+      x -> System.out.println(x)
+    );
+  }
 }
 ```
 

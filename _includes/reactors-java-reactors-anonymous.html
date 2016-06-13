@@ -1,6 +1,6 @@
 ```java
 Proto<String> proto = Reactor.apply(
-  (self) -> {}
+  self -> self.main().events().onEvent(x -> System.out.println(x))
 );
 ```
 
