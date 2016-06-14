@@ -1,0 +1,10 @@
+```java
+public static class MapReactor<K, V> extends Reactor<Op<K, V>> {
+  Map<K, V> map = new HashMap<K, V>();
+
+  public MapReactor() {
+    main().events().onEvent(op -> op.apply(map));
+  }
+}
+```
+

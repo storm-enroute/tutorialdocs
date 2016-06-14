@@ -351,6 +351,26 @@ class PutOnlyReactor[K, V] extends Reactor[(K, V)] {
 }
 ```
 
+<div class='panel-group' id='acc-17'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-17'
+          href='#clps-18'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-18' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-put-only.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 The `PutOnlyReactor` accepts events of type `(K, V)` for some generic type parameters
 `K` and `V`. This is fine for the purposes of storing key-value pairs into this reactor,
 but it does not make it possible to query values stored to specific keys. For this, the
@@ -367,6 +387,26 @@ case class Put[K, V](k: K, v: V) extends Op[K, V]
 case class Get[K, V](k: K, ch: Channel[V]) extends Op[K, V]
 ```
 
+<div class='panel-group' id='acc-19'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-19'
+          href='#clps-20'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-20' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-map-ops.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 With the `Op[K, V]` data type, we can define the following reactor:
 
 ```scala
@@ -380,6 +420,26 @@ class MapReactor[K, V] extends Reactor[Op[K, V]] {
 }
 ```
 
+<div class='panel-group' id='acc-21'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-21'
+          href='#clps-22'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-22' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-map-reactor.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 Let's start `MapReactor` and test it. We will use the `MapReactor` to store some
 DNS aliases. We will map each alias `String` key to a URL, where the URLs are
 represented with the `List[String]` type. We first initialize as follows:
@@ -388,6 +448,26 @@ represented with the `List[String]` type. We first initialize as follows:
 val mapper = system.spawn(Proto[MapReactor[String, List[String]]])
 ```
 
+<div class='panel-group' id='acc-23'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-23'
+          href='#clps-24'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-24' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-spawn-mapper.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 We then send a couple of `Put` messages to store some alias values:
 
 ```scala

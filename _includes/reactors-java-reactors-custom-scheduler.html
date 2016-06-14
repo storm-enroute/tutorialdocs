@@ -1,3 +1,8 @@
 ```java
+system.bundle().registerScheduler("customTimer", Scheduler.timer(1000));
+Proto<String> protoWithTimer =
+  Proto.create(HelloReactor.class).withScheduler("customTimer");
+Channel<String> periodic = system.spawn(protoWithTimer);
+periodic.send("Ohayo");
 ```
 

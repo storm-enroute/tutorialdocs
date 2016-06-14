@@ -1,0 +1,30 @@
+```java
+public static interface Op<K, V> {
+  public void apply(Map<K, V> map);
+}
+
+public static class Put<K, V> implements Op<K, V> {
+  public K k;
+  public V v;
+  public Put(K k, V v) {
+    this.k = k;
+    this.v = v;
+  }
+  public void apply(Map<K, V> map) {
+    map.put(k, v);
+  }
+}
+
+public static class Get<K, V> implements Op<K, V> {
+  public K k;
+  public Channel<V> ch;
+  public Get(K k, Channel<V> ch) {
+    this.k = k;
+    this.ch = ch;
+  }
+  public void apply(Map<K, V> map) {
+    ch.send(map.get(k));
+  }
+}
+```
+
