@@ -260,6 +260,26 @@ system.spawn(Proto[HelloReactor].withScheduler(
   ReactorSystem.Bundle.schedulers.newThread))
 ```
 
+<div class='panel-group' id='acc-13'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-13'
+          href='#clps-14'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-14' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-with-scheduler.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 The call to `withScheduler` returns a new prototype that runs on a predefined
 scheduler called `ReactorSystem.Bundle.schedulers.newThread`. A reactor started like
 this is using this scheduler. Reactor systems allow registering custom schedulers.
@@ -272,6 +292,26 @@ val periodic = system.spawn(Proto[HelloReactor].withScheduler("customTimer"))
 periodic ! "Ohayo!"
 ```
 
+<div class='panel-group' id='acc-15'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-15'
+          href='#clps-16'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-16' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-custom-scheduler.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 By running the code above, we can see that the event `"Ohayo!"` is processed only 1
 second after the reactor starts.
 
