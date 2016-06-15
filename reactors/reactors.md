@@ -475,6 +475,26 @@ mapper ! Put("dns-main", "dns1" :: "lan" :: Nil)
 mapper ! Put("dns-backup", "dns2" :: "com" :: Nil)
 ```
 
+<div class='panel-group' id='acc-25'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-25'
+          href='#clps-26'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-26' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-reactors-send-mapper.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 Next, we create a client reactor that we control by sending it `String` events. This
 means that the reactor's type will be `Reactor[String]`. However, the client reactor
 will also have to contact the `MapReactor` and ask it for one of the URLs. Since the
