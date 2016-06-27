@@ -1,0 +1,7 @@
+```java
+final int[] luckyNumber = new int[] { 0 };
+emitter.onEvent(x -> luckyNumber[0] = x);
+emitter.react(7);
+Assert.assertEquals(7, luckyNumber[0]);
+```
+

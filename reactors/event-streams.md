@@ -13,6 +13,35 @@ section: guide
 
 ## Event streams
 
+Event streams are objects that may asynchronously publish events.
+An important thing to realize here is that asynchronous execution
+does not imply concurrency.
+In fact, if we look up the dictionary definition of *concurrent*, we find:
+
+> Happening at the same time, side-by-side.
+
+If we now look at the definition of *asynchronous*, we find:
+
+> Not occurring at the same time.
+
+Despite the fact that we, programmers, sometimes conflate these two terms,
+in english language they mean almost opposite things.
+But this is not just a matter of language purism,
+asynchronous and concurrent also have separate meanings in programming!
+When a computation is asynchronous,
+it means that it does necessarily happen right away --
+it might happen **later in the future**, possibly **on the same thread**.
+When a computation is concurrent,
+it means that the computation might happen **at the same time**,
+but **on a different thread**.
+
+Event streams created within the same concurrency unit
+always emit events in that concurrency unit.
+This concurrency unit may be the current thread,
+if we're using event streams without reactors (as we do in this section),
+or a reactor otherwise (we cover reactors in the next section).
+So, let's get started.
+
 The first step in any program using reactors is to import the contents of the
 `io.reactors` package. The following line will allow us to declare event streams,
 channels and reactors:
@@ -21,6 +50,26 @@ channels and reactors:
 import io.reactors._
 ```
 
+<div class='panel-group' id='acc-1'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-1'
+          href='#clps-2'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-2' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-import.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 So far, so good!
 Now, let's study the basic data-type that drives most computations in the Reactors.IO
 framework -- an *event stream*. Event streams represent special program values that
@@ -31,6 +80,26 @@ Here is an event stream `myEvents`, which produces string events:
 val myEvents: Events[String] = createEventStream()
 ```
 
+<div class='panel-group' id='acc-3'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-3'
+          href='#clps-4'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-4' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-create.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 To be useful, an event stream must allow the users to somehow manipulate the events it
 produces. For this purpose, every event stream has a method called `onEvent`, which
 takes a user callback function and invokes it every time an event arrives:
@@ -39,6 +108,26 @@ takes a user callback function and invokes it every time an event arrives:
 myEvents.onEvent(x => println(x))
 ```
 
+<div class='panel-group' id='acc-5'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-5'
+          href='#clps-6'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-6' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-on-event.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 The `onEvent` method is similar to what most callback-based frameworks offer -- a way
 to provide an executable snippet of code that is invoked later, once an event becomes
 available. However, the receiver of the `onEvent` method, the event stream, is a
@@ -52,6 +141,26 @@ def trace[T](events: Events[T]) {
 }
 ```
 
+<div class='panel-group' id='acc-7'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-7'
+          href='#clps-8'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-8' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-trace.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 Before we continue, we note that event streams are entirely a single-threaded entity.
 The same event stream will never concurrently produce two events at the same time, so
 the `onEvent` method will never be invoked by two different threads at the same time
@@ -66,6 +175,26 @@ emitter:
 val emitter = new Events.Emitter[Int]
 ```
 
+<div class='panel-group' id='acc-9'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-9'
+          href='#clps-10'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-10' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-emitter.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 An emitter is simultaneously an event stream and an *event source*. We can
 imperatively "tell" it to produce an event by calling its `react` method. When we do
 that, emitter invokes the callbacks previously registered with the `onEvent` method.
@@ -77,6 +206,26 @@ emitter.react(7)
 assert(luckyNumber == 7)
 ```
 
+<div class='panel-group' id='acc-11'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-11'
+          href='#clps-12'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-12' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-lucky-number.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 By running the above snippet, we convince ourselves that `react` really forces the
 emitter to produce an event.
 
