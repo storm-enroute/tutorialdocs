@@ -1,0 +1,8 @@
+```java
+Events.Emitter<String> e = Events.emitter();
+e.onEventOrDone(
+  x -> System.out.println(x),
+  () -> System.out.println("she's done, mate!"));
+e.onDone(() -> System.out.println("done!"));
+```
+

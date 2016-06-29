@@ -256,6 +256,26 @@ e.onReaction(new Observer[Int] {
 })
 ```
 
+<div class='panel-group' id='acc-13'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-13'
+          href='#clps-14'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-14' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-observer.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 The `Observer[T]` type has three methods:
 
 - `react`: Invoked when a normal event is emitted. The second, optional `hint`
@@ -291,6 +311,26 @@ assert(errors == "^_^" :: Nil)
 assert(done == 1)
 ```
 
+<div class='panel-group' id='acc-15'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-15'
+          href='#clps-16'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-16' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-observer-test.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 As you can see above, after `unreact`, subsequent calls to `react` or `except` have
 no effect -- `unreact` effectively terminates the emitter. Furthermore, we can see
 that emitters are simultaneoulsy event streams and observers. Not all event streams
@@ -305,7 +345,7 @@ stream, as shown in the following example:
 
 ```scala
 val e = new Events.Emitter[String]
-e.onEventOrDone(x => println(x))(() => println("done, she's unreacted!"))
+e.onEventOrDone(x => println(x))(println("done, she's unreacted!"))
 e.onDone(println("event stream done!"))
 e onMatch {
   case "ok" => println("a-ok!")
@@ -315,6 +355,26 @@ e on {
 }
 ```
 
+<div class='panel-group' id='acc-17'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-17'
+          href='#clps-18'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-18' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-on-x.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 However, using only the `onX` family of event stream methods can easily result in a
 *callback hell* -- a program composed of a large number of unstructured `onX` calls,
 which is hard to understand and maintain. Having first-class event streams is a step
@@ -330,6 +390,26 @@ e.onEvent(x => squareSum += x * x)
 for (i <- 0 until 5) e react i
 ```
 
+<div class='panel-group' id='acc-19'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-19'
+          href='#clps-20'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-20' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-sum-var.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 The example is fairly straightforward, but what if we want to make `squareSum` an
 event stream so that another part of the program can react to its changes? We would
 have to create another emitter and have our `onEvent` callback invoke `react` on
@@ -344,6 +424,26 @@ e onEvent { x =>
 }
 ```
 
+<div class='panel-group' id='acc-21'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-21'
+          href='#clps-22'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-22' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-sum-ugly.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 Let's rewrite the previous snippet using event stream combinators.
 We use the `map` and `scanPast` combinators.
 The `map` combinator transforms events in one event stream into events for a derived
@@ -362,6 +462,26 @@ val sum = e.map(x => x * x).scanPast(0)(_ + _)
 for (i <- 0 until 5) e react i
 ```
 
+<div class='panel-group' id='acc-23'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-23'
+          href='#clps-24'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-24' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-sum-fun.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 The `Events[T]` type comes with a large number of predefined combinators.
 You can inspect all of them in the online API documentation.
 A set of event streams composed using functional combinators forms a
@@ -378,6 +498,26 @@ val odd = numbers.filter(_ % 2 == 1)
 val numbersAgain = even union odd
 ```
 
+<div class='panel-group' id='acc-25'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-25'
+          href='#clps-26'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-26' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-filter-union.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 The example above induces the following dataflow graph:
 
 ```
@@ -417,6 +557,7 @@ higherOrder.mux.onEvent(seen ::= _)
 evens react 2
 odds react 1
 higherOrder react evens
+assert(seen == Nil)
 odds react 3
 evens react 4
 assert(seen == 4 :: Nil)
@@ -426,6 +567,26 @@ odds react 5
 assert(seen == 5 :: 4 :: Nil)
 ```
 
+<div class='panel-group' id='acc-27'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-27'
+          href='#clps-28'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-28' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-mux.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 In some cases we want to obtain all the events from all the even streams produced
 by the higher-order event stream.
 To achieve this, we use the postfix `union` combinator:
@@ -446,6 +607,26 @@ odds react 5
 assert(seen2 == 5 :: 6 :: 4 :: Nil)
 ```
 
+<div class='panel-group' id='acc-29'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-29'
+          href='#clps-30'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-30' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-event-streams-union.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 For more examples of higher-order event stream combinators, please refer to the
 online API.
 

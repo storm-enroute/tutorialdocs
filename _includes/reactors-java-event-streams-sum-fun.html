@@ -1,0 +1,6 @@
+```java
+Events.Emitter<Integer> e = Events.emitter();
+Events<Integer> sum = e.map(x -> x * x).scanPast(0, (x, y) -> x + y);
+for (int i = 0; i < 5; i++) e.react(i);
+```
+

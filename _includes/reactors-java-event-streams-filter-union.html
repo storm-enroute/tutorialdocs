@@ -1,0 +1,7 @@
+```java
+Events.Emitter<Integer> numbers = Events.emitter();
+Events<Integer> even = numbers.filter(x -> x % 2 == 0);
+Events<Integer> odd = numbers.filter(x -> x % 2 == 1);
+Events<Integer> numbersAgain = even.union(odd);
+```
+

@@ -1,0 +1,8 @@
+```java
+Events.Emitter<Integer> ne = Events.emitter();
+ne.onEvent(x -> {
+  squareSum[0] += x * x;
+  ne.react(squareSum[0]);
+});
+```
+
