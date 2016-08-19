@@ -5,7 +5,7 @@ topic: reactors
 logoname: reactress-mini-logo-flat.png
 projectname: Reactors.IO
 homepage: http://reactors.io
-permalink: /reactors/schedulers/index.html
+permalink: /reactors/schedulers-and-lifecycle/index.html
 pagenum: 3
 pagetot: 40
 section: guide
@@ -13,7 +13,12 @@ section: guide
 
 ## Schedulers
 
-TODO
+Each reactor template can be used to start multiple reactor instances,
+and each reactor instance can be started with a different reactor scheduler.
+Different schedulers have different characteristics in terms of execution priority,
+frequency, latency and throughput.
+In this section, we'll take a look at how to use a non-default scheduler,
+and how to define custom schedulers when necessary.
 
 We start with the import of the standard Reactors.IO package:
 
@@ -43,7 +48,12 @@ import io.reactors._
 </div>
 We then define a reactor that logs incoming events,
 reports every time it gets scheduled,
-and ends after being scheduled three times:
+and ends after being scheduled three times.
+We will use the `sysEvents` stream of the reactor,
+which will be explained shortly -
+for now, all you need to know is that this stream produces
+events when the reactor gets some execution time (i.e. gets scheduled),
+and pauses its execution (i.e. gets preempted).
 
 ```scala
 class Logger extends Reactor[String] {
@@ -75,7 +85,7 @@ class Logger extends Reactor[String] {
     <div id='clps-4' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
-{% include reactors-java-schedulers-system.html %}
+{% include reactors-java-schedulers-logger.html %}
 {% endcapture %}
 {{ s | markdownify }}
       </div>
