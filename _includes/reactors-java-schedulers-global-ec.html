@@ -1,0 +1,6 @@
+```java
+Proto<String> proto = Proto.create(Logger.class).withScheduler(
+  Scheduler.GLOBAL_EXECUTION_CONTEXT);
+Channel<String> ch = system.spawn(proto);
+```
+

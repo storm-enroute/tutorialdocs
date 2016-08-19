@@ -1,0 +1,22 @@
+```java
+public static class Logger extends Reactor<String> {
+  private int count = 3;
+  public Logger() {
+    sysEvents().onEvent(x -> {
+      if (x.isReactorScheduled()) {
+        System.out.println("scheduled");
+      } else if (x.isReactorPreempted()) {
+        count -= 1;
+        if (count == 0) {
+          main().seal();
+          System.out.println("terminating");
+        }
+      }
+    });
+    main().events().onEvent(
+      x -> System.out.println(x)
+    );
+  }
+}
+```
+
