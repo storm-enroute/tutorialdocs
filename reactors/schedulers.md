@@ -180,8 +180,9 @@ ch ! "event 1"
     </div>
   </div>
 </div>
-Sending the event again decrements the reactor's counter and seals the main channel,
-therefore terminating the reactor:
+Sending the event again decrements the reactor's counter.
+The main channel gets sealed, leaving the reactor in a state without non-daemon
+channels, and the reactor terminates:
 
 ```scala
 ch ! "event 2"
@@ -207,3 +208,155 @@ ch ! "event 2"
     </div>
   </div>
 </div>
+## Reactor Lifecycle
+
+Every reactor goes through a certain number of stages during its lifetime,
+jointly called a *reactor lifecycle*.
+When the reactor enters a specific stage, it emits a lifecycle event.
+All lifecycle events are dispatched on a special daemon event stream called `sysEvents`.
+Every reactor is created with this event stream.
+
+After calling `spawn`,
+the reactor is scheduled for execution.
+Its constructor is started asynchronously,
+and immediately after that,
+a `ReactorStarted` event is dispatched.
+Then, whenever the reactor gets execution time,
+the `ReactorScheduled` event is dispatched.
+After that, some number of events are dispatched on normal event streams.
+When the scheduling system decides to preempt the reactor,
+the `ReactorPreempted` event is dispatched.
+This scheduling cycle can be repeated any number of times.
+Eventually, the reactor terminates,
+either by normal execution or exceptionally.
+If a user code exception terminates execution,
+a `ReactorDied` event is dispatched.
+In any case, `ReactorTerminated` event gets emitted.
+
+This reactor lifecycle is shown in the following diagram:
+
+```
+    |
+    V
+ReactorStarted
+    |
+    V
+ReactorScheduled <----
+    |                 \
+    V                 /
+ReactorPreempted -----
+    |                 \
+    |            ReactorDied
+    V                 /
+ReactorTerminated <---
+    |
+    x
+```
+
+To test this, we define the following reactor:
+
+```scala
+class LifecycleReactor extends Reactor[String] {
+  var first = true
+  sysEvents onMatch {
+    case ReactorStarted =>
+      println("started")
+    case ReactorScheduled =>
+      println("scheduled")
+    case ReactorPreempted =>
+      println("preempted")
+      if (first) first = false
+      else throw new Exception
+    case ReactorDied(_) =>
+      println("died")
+    case ReactorTerminated =>
+      println("terminated")
+  }
+}
+```
+
+<div class='panel-group' id='acc-13'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-13'
+          href='#clps-14'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-14' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-schedulers-lifecycle.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
+Upon creating the lifecycle reactor,
+the reactor gets the `ReactorStarted` event,
+and then `ReactorStarted` and `ReactorScheduled` events.
+The reactor then gets suspended,
+and remains that way until the scheduler gives it more execution time.
+
+```scala
+val ch = system.spawn(Proto[LifecycleReactor])
+```
+
+<div class='panel-group' id='acc-15'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-15'
+          href='#clps-16'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-16' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-schedulers-lifecycle-spawn.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
+The scheduler executes the reactor again
+when it detects that there are pending messages.
+If we send an event to the reactor now,
+we can see the same cycle of `ReactorScheduled` and `ReactorPreempted`
+on the standard output.
+However, the `ReactorPreempted` handler this time throws an exception.
+The exception is caught, `ReactorDied` event is emitted,
+followed by the mandatory `ReactorTerminated` event.
+
+```scala
+ch ! "event"
+```
+
+<div class='panel-group' id='acc-17'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-17'
+          href='#clps-18'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-18' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-schedulers-lifecycle-send.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
+At this point, the reactor is fully removed from the reactor system.
+

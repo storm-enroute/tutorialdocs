@@ -1,0 +1,18 @@
+```java
+public static class LifecycleReactor extends Reactor<String> {
+  private boolean first = true;
+  public LifecycleReactor() {
+    sysEvents().onEvent(x -> {
+      if (x.isReactorStarted()) System.out.println("started");
+      else if (x.isReactorScheduled()) System.out.println("scheduled");
+      else if (x.isReactorPreempted()) {
+        System.out.println("preempted");
+        if (first) first = false;
+        else throw new RuntimeException();
+      } else if (x.isReactorDied()) System.out.println("died");
+      else if (x.isReactorTerminated()) System.out.println("terminated");
+    });
+  }
+}
+```
+
