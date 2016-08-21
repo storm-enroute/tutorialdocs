@@ -886,3 +886,7 @@ div.toc-panel {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+
+pre.prettyprint li {
+  border-bottom: 1px solid #e6e6e6;
+}
