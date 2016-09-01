@@ -92,7 +92,8 @@ class Logger extends Reactor[String] {
     </div>
   </div>
 </div>
-We then create a reactor system, as we saw in the previous sections,
+Before starting, we need to create a reactor system,
+as we learned in the previous sections:
 
 ```scala
 val system = new ReactorSystem("test-system")
