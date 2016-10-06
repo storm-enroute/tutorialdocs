@@ -127,8 +127,7 @@ In the following, we override the default scheduler with the one using Scala's
 global execution context, i.e. Scala's own default thread pool:
 
 ```scala
-val proto = Proto[Logger].withScheduler(
-  ReactorSystem.Bundle.schedulers.globalExecutionContext)
+val proto = Proto[Logger].withScheduler(JvmScheduler.Key.globalExecutionContext)
 val ch = system.spawn(proto)
 ```
 
@@ -152,6 +151,30 @@ val ch = system.spawn(proto)
     </div>
   </div>
 </div>
+In Scala.js, there is no multi-threading - executions inside a single JavaScript
+runtime must execute in a single thread. For this reason, you will need to use
+a special `JsScheduler.Key.default` instance.
+
+<div class='panel-group' id='acc-9'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-9'
+          href='#clps-10'>
+          Scala.js
+        </a>
+      </h4>
+    </div>
+    <div id='clps-10' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-scala-js-custom-scheduler.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 Running the snippet above should start the `Logger` reactor and print `scheduled`
 once, because starting a reactor schedules it even before any event arrives.
 If we now send an event to the main channel, we will see `scheduled` printed again,
@@ -161,17 +184,17 @@ followed by the event itself.
 ch ! "event 1"
 ```
 
-<div class='panel-group' id='acc-9'>
+<div class='panel-group' id='acc-11'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-9'
-          href='#clps-10'>
+        <a data-toggle='collapse' data-parent='#acc-11'
+          href='#clps-12'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-10' class='panel-collapse collapse'>
+    <div id='clps-12' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-schedulers-global-ec-send.html %}
@@ -189,17 +212,17 @@ channels, and the reactor terminates:
 ch ! "event 2"
 ```
 
-<div class='panel-group' id='acc-11'>
+<div class='panel-group' id='acc-13'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-11'
-          href='#clps-12'>
+        <a data-toggle='collapse' data-parent='#acc-13'
+          href='#clps-14'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-12' class='panel-collapse collapse'>
+    <div id='clps-14' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-schedulers-global-ec-send-again.html %}
@@ -280,17 +303,17 @@ class LifecycleReactor extends Reactor[String] {
 }
 ```
 
-<div class='panel-group' id='acc-13'>
+<div class='panel-group' id='acc-15'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-13'
-          href='#clps-14'>
+        <a data-toggle='collapse' data-parent='#acc-15'
+          href='#clps-16'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-14' class='panel-collapse collapse'>
+    <div id='clps-16' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-schedulers-lifecycle.html %}
@@ -310,17 +333,17 @@ and remains that way until the scheduler gives it more execution time.
 val ch = system.spawn(Proto[LifecycleReactor])
 ```
 
-<div class='panel-group' id='acc-15'>
+<div class='panel-group' id='acc-17'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-15'
-          href='#clps-16'>
+        <a data-toggle='collapse' data-parent='#acc-17'
+          href='#clps-18'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-16' class='panel-collapse collapse'>
+    <div id='clps-18' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-schedulers-lifecycle-spawn.html %}
@@ -343,17 +366,17 @@ followed by the mandatory `ReactorTerminated` event.
 ch ! "event"
 ```
 
-<div class='panel-group' id='acc-17'>
+<div class='panel-group' id='acc-19'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-17'
-          href='#clps-18'>
+        <a data-toggle='collapse' data-parent='#acc-19'
+          href='#clps-20'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-18' class='panel-collapse collapse'>
+    <div id='clps-20' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-schedulers-lifecycle-send.html %}

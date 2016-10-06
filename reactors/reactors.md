@@ -281,8 +281,7 @@ reactor instance should use. If we want the reactor instance to run on its
 dedicated thread to give it more priority, we can do the following:
 
 ```scala
-system.spawn(Proto[HelloReactor].withScheduler(
-  ReactorSystem.Bundle.schedulers.newThread))
+system.spawn(Proto[HelloReactor].withScheduler(JvmScheduler.Key.newThread))
 ```
 
 <div class='panel-group' id='acc-15'>
@@ -305,17 +304,12 @@ system.spawn(Proto[HelloReactor].withScheduler(
     </div>
   </div>
 </div>
-The call to `withScheduler` returns a new prototype that runs on a predefined
-scheduler called `ReactorSystem.Bundle.schedulers.newThread`. A reactor started like
-this is using this scheduler. Reactor systems allow registering custom schedulers.
-In the following, we define a custom `Timer` scheduler, which schedules the reactor
-for execution once every `1000` milliseconds:
-
-```scala
-system.bundle.registerScheduler("customTimer", new Scheduler.Timer(1000))
-val periodic = system.spawn(Proto[HelloReactor].withScheduler("customTimer"))
-periodic ! "Ohayo!"
-```
+Note that if you are running Reactors on Scala.js,
+you will need to use Scala.js-specific scheduler.
+The reason is that the JavaScript runtime is not multi-threaded.
+Asynchronous executions are placed on a single queue,
+and executed one after another.
+On Scala.js, you will therefore need to use the `JsScheduler.Key.default` scheduler.
 
 <div class='panel-group' id='acc-17'>
   <div class='panel panel-default'>
@@ -323,11 +317,43 @@ periodic ! "Ohayo!"
       <h4 class='panel-title'>
         <a data-toggle='collapse' data-parent='#acc-17'
           href='#clps-18'>
-          Java
+          Scala.js
         </a>
       </h4>
     </div>
     <div id='clps-18' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-scala-js-custom-scheduler.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
+The call to `withScheduler` returns a new prototype that runs on a predefined
+scheduler called `ReactorSystem.Bundle.schedulers.newThread`. A reactor started like
+this is using this scheduler. Reactor systems allow registering custom schedulers.
+In the following, we define a custom `Timer` scheduler, which schedules the reactor
+for execution once every `1000` milliseconds:
+
+```scala
+system.bundle.registerScheduler("customTimer", new JvmScheduler.Timer(1000))
+val periodic = system.spawn(Proto[HelloReactor].withScheduler("customTimer"))
+periodic ! "Ohayo!"
+```
+
+<div class='panel-group' id='acc-19'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-19'
+          href='#clps-20'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-20' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-custom-scheduler.html %}
@@ -376,17 +402,17 @@ class PutOnlyReactor[K, V] extends Reactor[(K, V)] {
 }
 ```
 
-<div class='panel-group' id='acc-19'>
+<div class='panel-group' id='acc-21'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-19'
-          href='#clps-20'>
+        <a data-toggle='collapse' data-parent='#acc-21'
+          href='#clps-22'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-20' class='panel-collapse collapse'>
+    <div id='clps-22' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-put-only.html %}
@@ -412,17 +438,17 @@ case class Put[K, V](k: K, v: V) extends Op[K, V]
 case class Get[K, V](k: K, ch: Channel[V]) extends Op[K, V]
 ```
 
-<div class='panel-group' id='acc-21'>
+<div class='panel-group' id='acc-23'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-21'
-          href='#clps-22'>
+        <a data-toggle='collapse' data-parent='#acc-23'
+          href='#clps-24'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-22' class='panel-collapse collapse'>
+    <div id='clps-24' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-map-ops.html %}
@@ -445,17 +471,17 @@ class MapReactor[K, V] extends Reactor[Op[K, V]] {
 }
 ```
 
-<div class='panel-group' id='acc-23'>
+<div class='panel-group' id='acc-25'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-23'
-          href='#clps-24'>
+        <a data-toggle='collapse' data-parent='#acc-25'
+          href='#clps-26'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-24' class='panel-collapse collapse'>
+    <div id='clps-26' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-map-reactor.html %}
@@ -473,17 +499,17 @@ represented with the `List[String]` type. We first initialize as follows:
 val mapper = system.spawn(Proto[MapReactor[String, List[String]]])
 ```
 
-<div class='panel-group' id='acc-25'>
+<div class='panel-group' id='acc-27'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-25'
-          href='#clps-26'>
+        <a data-toggle='collapse' data-parent='#acc-27'
+          href='#clps-28'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-26' class='panel-collapse collapse'>
+    <div id='clps-28' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-spawn-mapper.html %}
@@ -500,17 +526,17 @@ mapper ! Put("dns-main", "dns1" :: "lan" :: Nil)
 mapper ! Put("dns-backup", "dns2" :: "com" :: Nil)
 ```
 
-<div class='panel-group' id='acc-27'>
+<div class='panel-group' id='acc-29'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-27'
-          href='#clps-28'>
+        <a data-toggle='collapse' data-parent='#acc-29'
+          href='#clps-30'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-28' class='panel-collapse collapse'>
+    <div id='clps-30' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-send-mapper.html %}
@@ -567,17 +593,17 @@ val ch = system.spawn(Reactor[String] { self =>
 })
 ```
 
-<div class='panel-group' id='acc-29'>
+<div class='panel-group' id='acc-31'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-29'
-          href='#clps-30'>
+        <a data-toggle='collapse' data-parent='#acc-31'
+          href='#clps-32'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-30' class='panel-collapse collapse'>
+    <div id='clps-32' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-mapper-client.html %}
@@ -606,17 +632,17 @@ Lets start the client reactor and see what happens:
 ch ! "start"
 ```
 
-<div class='panel-group' id='acc-31'>
+<div class='panel-group' id='acc-33'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-31'
-          href='#clps-32'>
+        <a data-toggle='collapse' data-parent='#acc-33'
+          href='#clps-34'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-32' class='panel-collapse collapse'>
+    <div id='clps-34' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-mapper-client-start.html %}
@@ -633,17 +659,17 @@ Finally, we can send the `"end"` message to the `Reactor` to stop it.
 ch ! "end"
 ```
 
-<div class='panel-group' id='acc-33'>
+<div class='panel-group' id='acc-35'>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h4 class='panel-title'>
-        <a data-toggle='collapse' data-parent='#acc-33'
-          href='#clps-34'>
+        <a data-toggle='collapse' data-parent='#acc-35'
+          href='#clps-36'>
           Java
         </a>
       </h4>
     </div>
-    <div id='clps-34' class='panel-collapse collapse'>
+    <div id='clps-36' class='panel-collapse collapse'>
       <div class='panel-body'>
 {% capture s %}
 {% include reactors-java-reactors-mapper-client-end.html %}
