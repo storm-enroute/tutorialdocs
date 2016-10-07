@@ -153,7 +153,7 @@ val ch = system.spawn(proto)
 </div>
 In Scala.js, there is no multi-threading - executions inside a single JavaScript
 runtime must execute in a single thread. For this reason, you will need to use
-a special `JsScheduler.Key.default` instance.
+a special `JsScheduler.Key.default` instance with the Scala.js frontend.
 
 <div class='panel-group' id='acc-9'>
   <div class='panel panel-default'>

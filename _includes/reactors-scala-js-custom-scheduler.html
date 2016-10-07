@@ -1,11 +1,4 @@
 ```scala
-val done = Promise[Boolean]()
-system.spawn(Reactor[Unit] { self =>
-  self.sysEvents onMatch {
-    case ReactorStarted =>
-      done.success(true)
-      self.main.seal()
-  }
-})
+system.spawn(proto.withScheduler(JsScheduler.Key.default))
 ```
 

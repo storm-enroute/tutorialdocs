@@ -338,8 +338,10 @@ In the following, we define a custom `Timer` scheduler, which schedules the reac
 for execution once every `1000` milliseconds:
 
 ```scala
-system.bundle.registerScheduler("customTimer", new JvmScheduler.Timer(1000))
-val periodic = system.spawn(Proto[HelloReactor].withScheduler("customTimer"))
+system.bundle.registerScheduler("customTimer",
+  new JvmScheduler.Timer(1000))
+val periodic = system.spawn(
+  Proto[HelloReactor].withScheduler("customTimer"))
 periodic ! "Ohayo!"
 ```
 
