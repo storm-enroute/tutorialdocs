@@ -43,6 +43,26 @@ We start by importing the `Log` service.
 import io.reactors.services.Log
 ```
 
+<div class='panel-group' id='acc-1'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-1'
+          href='#clps-2'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-2' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-services-log-import.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 Next, we create a reactor system, and start a reactor instance.
 The reactor invokes the `service` method on the reactor system,
 which returns the service with the specified type.
@@ -59,6 +79,26 @@ system.spawn(Reactor[String] { self =>
 })
 ```
 
+<div class='panel-group' id='acc-3'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-3'
+          href='#clps-4'>
+          Java
+        </a>
+      </h4>
+    </div>
+    <div id='clps-4' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-java-services-log-example.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
 Running the above snippet prints the timestamped message to the standard output.
 
 This example is very simple, but we use it to describe some

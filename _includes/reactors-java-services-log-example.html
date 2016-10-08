@@ -1,0 +1,9 @@
+```java
+Proto<String> proto = Reactor.apply(self -> {
+  Log log = system.service(Log.class);
+  log.info("Reactor started!");
+  self.main().seal();
+});
+system.spawn(proto);
+```
+
