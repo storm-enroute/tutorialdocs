@@ -127,7 +127,8 @@ In the following, we override the default scheduler with the one using Scala's
 global execution context, i.e. Scala's own default thread pool:
 
 ```scala
-val proto = Proto[Logger].withScheduler(JvmScheduler.Key.globalExecutionContext)
+val proto = Proto[Logger].withScheduler(
+  JvmScheduler.Key.globalExecutionContext)
 val ch = system.spawn(proto)
 ```
 

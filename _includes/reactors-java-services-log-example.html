@@ -1,7 +1,7 @@
 ```java
 Proto<String> proto = Reactor.apply(self -> {
   Log log = system.service(Log.class);
-  log.info("Reactor started!");
+  log.info("Test reactor started!");
   self.main().seal();
 });
 system.spawn(proto);

@@ -1,0 +1,10 @@
+```java
+Proto<String> proto = Reactor.apply(self -> {
+  system.clock().timeout(1000).onEvent(v -> {
+    System.out.println("Timeout!");
+    self.main().seal();
+  });
+});
+system.spawn(proto);
+```
+

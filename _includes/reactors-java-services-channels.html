@@ -1,0 +1,21 @@
+```java
+Proto<String> proto = Reactor.apply(self -> {
+  system.clock().timeout(1000).onEvent(v -> {
+    Connector<Integer> c =
+      system.channels().daemon().named("lucky").<Integer>open();
+    c.events().onEvent(i -> {
+      System.out.println("Done!");
+      self.main().seal();
+    });
+  });
+});
+system.spawn(proto.withName("first"));
+
+system.spawn(Reactor.apply(self -> {
+  system.channels().<Integer>await("first", "lucky").onEvent(ch -> {
+    ch.send(7);
+    self.main().seal();
+  });
+}));
+```
+
