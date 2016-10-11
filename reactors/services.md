@@ -282,7 +282,7 @@ class CustomService(val system: ReactorSystem) extends Protocol.Service {
 
 Note that every service needs to have a constructor with a single `ReactorSystem`
 parameter. The `shutdown` method is called when the corresponding reactor system
-gets shut down, and is used to free any resources that the resource potentially has.
+gets shut down, and is used to free any resources that the service potentially has.
 
 As noted before, a service is a mechanism that gives access to events that a reactor
 normally cannot obtain from other reactors. Let's implement a service that notifies
