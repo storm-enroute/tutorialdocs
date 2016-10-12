@@ -2,26 +2,44 @@
 
   <div class="toc"><span>Contents</span></div>
 
+  <h4><a href="/tutorialdocs/{{ page.topic }}/">Getting Started Guide</a></h4>
+
   {% for pg in site.pages %}
-    {% if pg.topic == page.topic and pg.section == "guide" and pg.pagetot %}
+    {% if pg.topic == page.topic and pg.section == "guide-intro" and pg.pagetot %}
       {% assign totalPagesTour = pg.pagetot %}
     {% endif %}
   {% endfor %}
-
-  <h4><a href="/tutorialdocs/{{ page.topic }}/">Getting Started Guide</a></h4>
 
   {% if totalPagesTour %}
   <ul class="bullets">
     {% for i in (1..totalPagesTour) %}
       {% for pg in site.pages %}
-        {% if pg.topic == page.topic and pg.section == "guide" and pg.pagenum and pg.pagenum == i and pg.coversion == page.coversion %}
+        {% if pg.topic == page.topic and pg.section == "guide-intro" and pg.pagenum and pg.pagenum == i and pg.coversion == page.coversion %}
           <li><a href="/tutorialdocs/{{ pg.url }}">{{ pg.title }}</a></li>
         {% endif %}
       {% endfor %}
     {% endfor %}
   </ul>
   {% else %}
-    **ERROR**. Couldn't find the total number of pages in this set of tutorial articles. Have you declared the `outof` tag in your YAML front matter?
+  {% endif %}
+
+  {% for pg in site.pages %}
+    {% if pg.topic == page.topic and pg.section == "guide-main" and pg.pagetot %}
+      {% assign totalPagesTour = pg.pagetot %}
+    {% endif %}
+  {% endfor %}
+
+  {% if totalPagesTour %}
+  <ul class="bullets">
+    {% for i in (1..totalPagesTour) %}
+      {% for pg in site.pages %}
+        {% if pg.topic == page.topic and pg.section == "guide-main" and pg.pagenum and pg.pagenum == i and pg.coversion == page.coversion %}
+          <li><a href="/tutorialdocs/{{ pg.url }}">{{ pg.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </ul>
+  {% else %}
   {% endif %}
 
 </div>

@@ -8,7 +8,7 @@ homepage: http://reactors.io
 permalink: /reactors/event-streams/index.html
 pagenum: 1
 pagetot: 40
-section: guide-reactors
+section: guide-main
 ---
 
 ## Event streams

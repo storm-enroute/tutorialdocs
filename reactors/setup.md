@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: Setup
+title: Setting up Reactors.IO
 topic: reactors
 logoname: reactress-mini-logo-flat.png
 projectname: Reactors.IO

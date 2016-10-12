@@ -8,7 +8,7 @@ homepage: http://reactors.io
 permalink: /reactors/reactors/index.html
 pagenum: 2
 pagetot: 40
-section: guide-reactors
+section: guide-main
 ---
 
 ## Reactors 101
