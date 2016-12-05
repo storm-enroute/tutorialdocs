@@ -7,7 +7,7 @@ pre.prettyprint {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  box-shadow: 0px 3px 6px #aaa;
+  box-shadow: 0px 2px 2px #ccc;
 }
 
 pre code {
