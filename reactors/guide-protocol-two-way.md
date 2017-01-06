@@ -222,9 +222,9 @@ We call this reactor a *2-way server*.
 
 To create a `Proto` object of a 2-way server,
 we use the `twoWayServer` extension method on `Reactor`.
-This method takes a lambda with two parameters --
+This method takes a lambda with
 the `server` state, which we saw earlier,
-and a newly established `twoWay` link.
+whose `links` event stream emits established `twoWay` links.
 The lambda is invoked each time when a link is established.
 
 In the following, we create a reactor `seriesCalculator`,
@@ -236,10 +236,12 @@ where `i` ranges from `1` to `n`:
 
 ```scala
 val seriesCalculator = Reactor.twoWayServer[Double, Int] {
-  (server, twoWay) =>
-  twoWay.input onEvent { n =>
-    for (i <- 1 until n) {
-      twoWay.output ! (1.0 / i)
+  server =>
+  server.links onEvent { twoWay =>
+    twoWay.input onEvent { n =>
+      for (i <- 1 until n) {
+        twoWay.output ! (1.0 / i)
+      }
     }
   }
 }
