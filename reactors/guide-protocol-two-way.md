@@ -84,7 +84,8 @@ The 2-way server will receive strings, and respond with the length of those stri
 
 ```scala
 val seeker = Reactor[Unit] { self =>
-  val lengthServer = self.system.channels.twoWayServer[Int, String].serveTwoWay()
+  val lengthServer =
+    self.system.channels.twoWayServer[Int, String].serveTwoWay()
 ```
 
 The above two lines declare a reactor `Proto` object,
