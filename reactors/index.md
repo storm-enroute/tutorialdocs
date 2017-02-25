@@ -91,3 +91,24 @@ and they can be found
 </ul>
 
 
+### Utilities
+
+{% for pg in site.pages %}
+  {% if pg.topic == "reactors" and pg.section == "guide-util" and pg.pagetot %}
+    {% assign totalPages = pg.pagetot %}
+  {% endif %}
+{% endfor %}
+
+<ul>
+{% for i in (1..totalPages) %}
+  {% for pg in site.pages %}
+    {% if pg.topic == "reactors" and pg.section == "guide-util" %}
+      {% if pg.pagenum and pg.pagenum == i %}
+        <li><a href="/tutorialdocs/{{ pg.url }}">{{ pg.title }}</a></li>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+</ul>
+
+
