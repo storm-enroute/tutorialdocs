@@ -71,7 +71,7 @@ val server = Reactor[Unit] { self =>
     <body>
       <h2>About this website</h2>
       <p>
-        This website was server using the <pre>Http</pre> service,
+        This website was server using the <code>Http</code> service,
         and was created for you by a custom reactor.
       </p>
     </body>
@@ -103,7 +103,8 @@ For example, if you want to ensure that your server gets a high priority,
 you can use the custom thread scheduler. See the Schedulers section
 for more details.
 
-You can now point your browser to `http://localhost:9500/hello`,
+You can now point your browser to
+[http://localhost:9500/hello](http://localhost:9500/hello),
 and see your web page in action.
 
 
@@ -111,7 +112,7 @@ and see your web page in action.
 
 It is also possible to create a server that forwards incoming messages
 to other workers. In this case, the parallelism of the server is improved,
-but the workers are nort allowed to access the local state of the reactor.
+but the workers are not allowed to access the local state of the reactor.
 To create such a server, we need to pass the worker channel to the `at` method
 the first time it gets called.
 
@@ -130,11 +131,11 @@ val parallelServer = Reactor[Unit] { self =>
     .route(Router.roundRobin(workers)).channel
 ```
 
-Now that we have our worker list, we can start the HTTP server,
+Now that we have our worker list, we can start the parallel HTTP server,
 and spawn the server reactor:
 
 ```scala
-  self.system.service[Http].at(9502, Some(workerChannel))
+  self.system.service[Http].parallel(9502, workerChannel)
     .text("/round") { req =>
       s"Round and round it goes -- ${Reactor.self.uid}!"
     }
