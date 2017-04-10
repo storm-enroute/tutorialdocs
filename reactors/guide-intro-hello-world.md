@@ -58,3 +58,31 @@ Above, we note the following:
 
 The subsequent sections will explain these features in depth.
 
+**Note:** If you are running the above example in IntelliJ or another IDE that runs
+your Scala programs in a separate JVM process, you need to ensure that this new
+JVM process does not die when the `main` function ends. Reactors run on daemon
+threads by default, so they will not prevent the JVM from terminating. There are
+several ways to fix this, and the easiest is to add a `Thread.sleep` at the end of
+the `main` function. A more sophisticated approach is to start your `welcomeReactor`
+on a dedicated thread instead of a thread pool:
+
+<div class='panel-group' id='acc-1'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h4 class='panel-title'>
+        <a data-toggle='collapse' data-parent='#acc-1'
+          href='#clps-2'>
+          JVM
+        </a>
+      </h4>
+    </div>
+    <div id='clps-2' class='panel-collapse collapse'>
+      <div class='panel-body'>
+{% capture s %}
+{% include reactors-scala-jvm-spawn-thread.html %}
+{% endcapture %}
+{{ s | markdownify }}
+      </div>
+    </div>
+  </div>
+</div>
