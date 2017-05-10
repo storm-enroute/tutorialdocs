@@ -86,7 +86,7 @@ can occasionally produce events. Event streams are represented by the `Event[T]`
 Here is an event stream `myEvents`, which produces string events:
 
 ```scala
-val myEvents: Events[String] = createEventStream()
+val myEvents: Events[String] = new Events.Emitter[String]
 ```
 
 <div class='panel-group' id='acc-3'>
