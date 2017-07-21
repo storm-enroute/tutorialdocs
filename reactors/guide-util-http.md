@@ -49,7 +49,7 @@ val system = ReactorSystem.default("test-system")
 
 We can now declare the server reactor.
 Our reactor will first fetch the `Http` service singleton with the expression
-`self.system.service[Http]`, and then invoke the `at` method combined with either
+`self.system.service[Http]`, and then invoke the `seq` method combined with either
 `text`, `html` or `resource` to install different routes. We will install three
 different routes: `/hello`, `/about` and `/contact`, along with the corresponding
 handlers. Note that in the case of the `/hello` handler, we read the `name`
@@ -58,12 +58,12 @@ parameter from the map of request parameters, and use it to greet the user.
 ```scala
 val server = Reactor[Unit] { self =>
   val http = self.system.service[Http]
-  http.at(9500).text("/hello") { req =>
-    val name = req.parameters.getOrElse("name", Seq("World")).head
-    s"Hello, $name."
+  http.seq(9500).text("/hello") { req =>
+    val name = req.parameters.getOrElse("name", Seq("World"))
+    Events(s"Hello, $name.")
   }
-  http.at(9500).html("/about") { req =>
-    """
+  http.seq(9500).html("/about") { req =>
+    Events("""
     <html>
     <head>
       <title>About</title>
@@ -76,9 +76,9 @@ val server = Reactor[Unit] { self =>
       </p>
     </body>
     </html>
-    """
+    """)
   }
-  http.at(9500).resource("/contact")("text/xml") { req =>
+  http.seq(9500).resource("/contact")("text/xml") { req =>
     val xml = """
     <?xml version="1.0" encoding="UTF-8"?>
     <note>
@@ -86,7 +86,7 @@ val server = Reactor[Unit] { self =>
       <source>https://github.com/reactors-io/reactors</source>
     </note>
     """.trim
-    new java.io.ByteArrayInputStream(xml.getBytes)
+    Events(new java.io.ByteArrayInputStream(xml.getBytes))
   }
 }
 ```
@@ -107,44 +107,5 @@ You can now point your browser to
 [http://localhost:9500/hello](http://localhost:9500/hello),
 and see your web page in action.
 
-
-## Parallel Servers
-
-It is also possible to create a server that forwards incoming messages
-to other workers. In this case, the parallelism of the server is improved,
-but the workers are not allowed to access the local state of the reactor.
-To create such a server, we need to pass the worker channel to the `at` method
-the first time it gets called.
-
-We start by creating a batch of workers -- we will import the `io.reactors.protocol`
-package to more easily create the workers and combine their input channels
-(see the Protocols section for more details):
-
-```scala
-val parallelServer = Reactor[Unit] { self =>
-  import io.reactors.protocol._
-  val workers = for (i <- 0 until 8) yield
-    system.spawnLocal[Http.Connection] {
-      self => self.main.events.onEvent(_.accept())
-    }
-  val workerChannel = self.system.channels.router[Http.Connection]
-    .route(Router.roundRobin(workers)).channel
-```
-
-Now that we have our worker list, we can start the parallel HTTP server,
-and spawn the server reactor:
-
-```scala
-  self.system.service[Http].parallel(9502, workerChannel)
-    .text("/round") { req =>
-      s"Round and round it goes -- ${Reactor.self.uid}!"
-    }
-}
-
-system.spawn{parallelServer}
-```
-
-Again, note that the handler for `/round` is not allowed to access any local
-reactor state in this example, since the handler will be invoked in parallel
-by different workers.
+Thread.sleep(2500)
 
